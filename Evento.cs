@@ -75,6 +75,11 @@ namespace GestoreEventi
         //2. DisdiciPosti: riduce del i posti prenotati del numero di posti indicati come parametro.Se l’evento è già passato o non ci sono i posti da disdire sufficienti, deve sollevare un’eccezione.
         //3. l’override del metodo ToString() in modo che venga restituita una stringa contenente: data formattata – titolo
         //Per formattare la data correttamente usate nomeVariabile.ToString("dd/MM/yyyy"); applicata alla vostra variabile DateTime.
+        public void CalcolaPostiDisponibili()
+        {
+            int postiDisponibili = CapienzaMassima - PostiPrenotati;
+            Console.WriteLine($"I posti disponibili per questo evento sono: {postiDisponibili}");
+        }
 
         public void PrenotaPosti(int postiDaPrenotare)
         {
@@ -93,6 +98,47 @@ namespace GestoreEventi
 
             PostiPrenotati += postiDaPrenotare;
         }
+        public void PrenotaPostiDaInput()
+        {
+            Console.WriteLine("Vuoi prenotare dei posti per questo evento? (SI/NO)");
+            string risposta = Console.ReadLine().Trim().ToUpper();
+
+            if (risposta == "SI" || risposta == "S")
+            {
+                Console.Write("Inserisci il numero di posti da prenotare: ");
+                if (int.TryParse(Console.ReadLine(), out int postiDaPrenotare))
+                {
+                    if (postiDaPrenotare > CapienzaMassima - PostiPrenotati)
+                    {
+                        throw new ArgumentException("Spiaze...Non ci sono abbastanza posti.");
+                    }
+                    if (postiDaPrenotare < 0)
+                    {
+                        throw new ArgumentException("Inserisci un numero positivo di biglietti da prenotare.");
+                    }
+                    if (Data < DateTime.Now.Date)
+                    {
+                        throw new InvalidOperationException("Impossibile prenotare posti per un evento passato.");
+                    }
+
+                    PostiPrenotati += postiDaPrenotare;
+                    Console.WriteLine($"Hai prenotato {postiDaPrenotare} posti per l'evento.");
+                }
+                else
+                {
+                    throw new ArgumentException("Inserisci un numero valido di posti da prenotare.");
+                }
+            }
+            else if (risposta == "NO" || risposta == "N")
+            {
+                Console.WriteLine("Hai scelto di non prenotare posti per questo evento.");
+            }
+            else
+            {
+                Console.WriteLine("Inserisci o 'SI' o 'NO'.");
+            }
+        }
+
 
         public void DisdiciPosti(int postiDaDisdire)
         {
@@ -110,6 +156,48 @@ namespace GestoreEventi
                 throw new InvalidOperationException("Impossibile disdire posti per un evento passato.");
             }
         }
+
+        public void DisdiciPostiDaInput()
+        {
+            string risposta;
+            bool rispostaValida = false;
+
+            while (!rispostaValida)
+            {
+                Console.WriteLine("Desideri disdire dei posti? (SI/NO)");
+                risposta = Console.ReadLine().ToUpper();
+
+                if (risposta == "SI" || risposta == "S")
+                {
+                    Console.WriteLine("Quanti posti vuoi disdire?");
+                    int postiDaDisdire;
+
+                    while (!int.TryParse(Console.ReadLine(), out postiDaDisdire) || postiDaDisdire <= 0)
+                    {
+                        Console.WriteLine("Inserisci un numero intero maggiore di zero.");
+                    }
+
+                    DisdiciPosti(postiDaDisdire);
+                    Console.WriteLine($"Hai disdetto {postiDaDisdire} posti");
+
+                    int postiDisponibili = CapienzaMassima - PostiPrenotati;
+                    Console.WriteLine($"Sono disponibili ancora {postiDisponibili} posti");
+
+                    rispostaValida = true; // Esce dal ciclo
+                }
+                else if (risposta == "NO" || risposta == "N")
+                {
+                    Console.WriteLine("Hai scelto di non disdire nessun posto");
+                    rispostaValida = true;
+                }
+                else
+                {
+                    Console.WriteLine("Risposta non valida. Inserisci 'SI' o 'NO'.");
+                }
+            }
+        }
+
+
 
         //Sovrascrivo il ToString per ottenere una formattazione migliore 
 
