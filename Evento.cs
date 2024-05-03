@@ -12,7 +12,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace GestoreEventi
 {
 
-    internal class Evento
+    internal class Evento 
     {
         private string _titolo;
         private DateTime _data;

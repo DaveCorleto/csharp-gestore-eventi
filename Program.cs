@@ -39,7 +39,7 @@ namespace GestoreEventi
         }
 
 
-        public static Evento CreaEventoDaInput()
+        public static Evento CreaEventoDaInput(ProgrammaEventi programma)
         {
             string titolo = null;
             DateTime data = DateTime.MinValue;
@@ -86,6 +86,8 @@ namespace GestoreEventi
 
             Evento nuovoEvento = new Evento(titolo, data, capienzaMassima);
 
+            programma.AggiungiEvento(nuovoEvento);
+
             Console.WriteLine($"Congratulazioni! Hai creato l'evento:\n" +
                               $"Titolo: {nuovoEvento.Titolo}\n" +
                               $"Data: {nuovoEvento.Data.ToString("dd/MM/yyyy")}\n" +
@@ -131,7 +133,7 @@ namespace GestoreEventi
 
         static void Main(string[] args)
         {
-            
+
             //Istanziazione degli eventi standard. Come prova
 
             //Evento BillieEilish2Giugno = new Evento("Billie Eilish al forum di Assago", new DateTime(2024, 6, 2), 6000);
@@ -155,7 +157,10 @@ namespace GestoreEventi
             //Console.WriteLine($"Hai appena disdetto {postiDaDisdire} posti per {BillieEilish2Giugno.Titolo}");
             //Console.WriteLine($"Al momento per questo evento sono prenotati {BillieEilish2Giugno.PostiPrenotati} posti");
 
-            Evento ANightWithOphra = CreaEventoDaInput();
+            //Istanzio il programma 
+            ProgrammaEventi programma = new ProgrammaEventi("Programma Eventi");
+
+            Evento ANightWithOphra = CreaEventoDaInput(programma);
 
             Console.WriteLine(ANightWithOphra.ToString());
 
@@ -164,6 +169,7 @@ namespace GestoreEventi
 
             ANightWithOphra.CalcolaPostiDisponibili();
             ANightWithOphra.DisdiciPostiDaInput();
+
 
 
         }
