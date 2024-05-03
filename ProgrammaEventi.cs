@@ -19,11 +19,12 @@ namespace GestoreEventi
 
         public void AggiungiEvento(Evento evento)
         {
-            Eventi.Add(evento);
+            this.Eventi.Add(evento);
         }
 
         public List<Evento> EventiInData(DateTime data)
-        {
+        {   
+            //Funzione anonima...trovata online 
             return Eventi.Where(e => e.Data.Date == data.Date).ToList();
         }
 

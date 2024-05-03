@@ -12,12 +12,12 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace GestoreEventi
 {
 
-    internal class Evento 
+    public class Evento 
     {
-        private string _titolo;
-        private DateTime _data;
-        private int _capienzaMassima;
-        private int _postiPrenotati;
+        public string _titolo;
+        public DateTime _data;
+        public int _capienzaMassima;
+        public int _postiPrenotati;
 
         public string Titolo
         {
